@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "instrumentation-service"
+    static_configs:
+      - targets: ["server:2112"]

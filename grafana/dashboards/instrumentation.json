@@ -1,0 +1,66 @@
+{
+  "dashboard": {
+    "title": "Instrumentation Service",
+    "uid": "instr-svc",
+    "panels": [
+      {
+        "title": "Events Ingested (rate)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+        "targets": [
+          { "expr": "rate(instrumentation_events_ingested_total[1m])", "legendFormat": "ingested/s" }
+        ]
+      },
+      {
+        "title": "Events Flushed (rate)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+        "targets": [
+          { "expr": "rate(instrumentation_events_flushed_total[1m])", "legendFormat": "flushed/s" }
+        ]
+      },
+      {
+        "title": "Flush Duration (p99)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+        "targets": [
+          { "expr": "histogram_quantile(0.99, rate(instrumentation_flush_duration_seconds_bucket[5m]))", "legendFormat": "p99" }
+        ]
+      },
+      {
+        "title": "Buffer Size",
+        "type": "gauge",
+        "gridPos": { "h": 8, "w": 6, "x": 12, "y": 8 },
+        "targets": [
+          { "expr": "instrumentation_buffer_size", "legendFormat": "events" }
+        ]
+      },
+      {
+        "title": "Kafka Send Errors",
+        "type": "stat",
+        "gridPos": { "h": 8, "w": 6, "x": 18, "y": 8 },
+        "targets": [
+          { "expr": "increase(instrumentation_kafka_send_errors_total[5m])", "legendFormat": "errors" }
+        ]
+      },
+      {
+        "title": "REST Latency (p99)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+        "targets": [
+          { "expr": "histogram_quantile(0.99, rate(instrumentation_rest_request_duration_seconds_bucket[5m]))", "legendFormat": "p99" }
+        ]
+      },
+      {
+        "title": "gRPC Latency (p99)",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+        "targets": [
+          { "expr": "histogram_quantile(0.99, rate(instrumentation_grpc_request_duration_seconds_bucket[5m]))", "legendFormat": "p99" }
+        ]
+      }
+    ],
+    "time": { "from": "now-30m", "to": "now" },
+    "refresh": "10s"
+  }
+}

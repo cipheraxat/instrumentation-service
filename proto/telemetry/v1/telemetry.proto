@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package telemetry.v1;
+
+option go_package = "github.com/cipheraxat/instrumentation-service/gen/telemetryv1";
+
+// TelemetryEvent represents a single instrumentation event.
+// Fields 1-5 are v1; field 6 (session_id) was added in v2 as a
+// backward-compatible extension.
+message TelemetryEvent {
+  string event_id   = 1;
+  string event_type = 2;
+  string source     = 3;
+  int64  timestamp  = 4;
+  map<string, string> properties = 5;
+  string session_id = 6; // v2: backward-compatible addition
+}
+
+message IngestRequest {
+  repeated TelemetryEvent events = 1;
+}
+
+message IngestResponse {
+  int32 accepted = 1;
+  int32 rejected = 2;
+}
+
+service IngestService {
+  // Ingest accepts a batch of telemetry events.
+  rpc Ingest(IngestRequest) returns (IngestResponse);
+}
