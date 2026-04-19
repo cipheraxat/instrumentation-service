@@ -5,9 +5,9 @@ Centralized Go-based telemetry ingestion service that consolidates event collect
 ## Architecture
 
 ```
-Producers ──▶ REST /v1/events ──▶ ┌──────────┐     ┌───────┐     ┌────────────┐
+Producers ──▶ REST /v1/events ──▶   ┌──────────┐     ┌───────┐     ┌────────────┐
                                    │  Batcher  │────▶│ Kafka │────▶│ Consumers  │
-Producers ──▶ gRPC Ingest    ──▶ └──────────┘     └───────┘     └────────────┘
+Producers ──▶ gRPC Ingest    ──▶    └──────────┘     └───────┘     └────────────┘
                                         │
                                         ▼
                                    PostgreSQL
